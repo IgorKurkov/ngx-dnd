@@ -11,7 +11,7 @@ import {
   EventEmitter,
 } from '@angular/core';
 
-import { DroppableDirective } from '../../directives';
+import { DroppableDirective, DraggableDirective } from '../../directives';
 
 let i = 0;
 function getNextId() {
@@ -66,6 +66,12 @@ export class ContainerComponent implements OnInit, AfterViewInit {
   drag: EventEmitter<any> = new EventEmitter<any>();
 
   @Output()
+  dragend: EventEmitter<any> = new EventEmitter<any>();
+
+  @Output()
+  dragging: EventEmitter<any> = new EventEmitter<any>();
+
+  @Output()
   over: EventEmitter<any> = new EventEmitter<any>();
 
   @Output()
@@ -91,5 +97,7 @@ export class ContainerComponent implements OnInit, AfterViewInit {
     this.droppable.out.subscribe(v => this.out.emit(v));
     this.droppable.remove.subscribe(v => this.remove.emit(v));
     this.droppable.cancel.subscribe(v => this.cancel.emit(v));
+    this.droppable.dragend.subscribe(v => this.dragend.emit(v));
+    this.droppable.dragging.subscribe(v => this.dragging.emit(v));
   }
 }

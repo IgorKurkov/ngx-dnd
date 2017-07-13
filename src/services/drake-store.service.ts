@@ -1,4 +1,4 @@
-import { Injectable, EventEmitter, Renderer } from '@angular/core';
+import { Injectable, EventEmitter, Renderer, NgZone } from '@angular/core';
 
 import * as dragula from 'dragula';
 import { DroppableDirective } from '../directives/ngx-droppable.directive';
@@ -17,10 +17,37 @@ export class DrakeStoreService {
   private dragulaOptions: any = {};
   private drake: any;
 
-  constructor() {
+  private _animationFrame; 
+  private _dragging;
+  private _lastKnownSource;
+
+  constructor(private zone: NgZone) {
     this.dragulaOptions = this.createDrakeOptions();
     this.drake = dragula([], this.dragulaOptions);
     this.registerEvents();
+
+    this._dragging = (container: any, emitParams: any) => {
+      
+      let mirror;
+      const elementComponent = container;
+
+      const animate = () => {
+
+        if(!mirror) {
+          mirror = document.getElementsByClassName('gu-mirror')[0];
+        }
+
+        emitParams.mirror = mirror;
+        elementComponent.dragging.emit(emitParams);
+
+        this._animationFrame = requestAnimationFrame(animate);
+
+      };
+
+      return animate;
+
+    };
+
   }
 
   register(droppable: DroppableDirective) {
@@ -92,26 +119,53 @@ export class DrakeStoreService {
         const elementComponent = this.draggableMap.get(el);
         draggedItem = elementComponent.model;
 
-        elementComponent.drag.emit({
+        let emitParams = {
           type: 'drag',
           el,
           source,
           value: draggedItem
-        });
+        };
+
+        elementComponent.drag.emit(emitParams);
+        emitParams.type = 'dragging';
+        this.zone.runOutsideAngular(this._dragging(elementComponent, emitParams));
       }
 
       if (this.droppableMap.has(source)) {
         const sourceComponent = this.droppableMap.get(source);
         this.dragulaOptions.removeOnSpill = sourceComponent.removeOnSpill;
 
-        sourceComponent.drag.emit({
+        let emitParams = {
           type: 'drag',
           el,
           source,
           sourceComponent,
           value: draggedItem
+        };
+
+        sourceComponent.drag.emit(emitParams);
+        emitParams.type = 'dragging';
+        // this.zone.runOutsideAngular(this._dragging(sourceComponent, emitParams));
+      }
+
+    });
+
+    this.drake.on('dragend', (el: any) => {
+      window.cancelAnimationFrame(this._animationFrame);
+
+      draggedItem = undefined;
+      dragElm = el;
+
+      if (this.draggableMap.has(el)) {
+        const elementComponent = this.draggableMap.get(el);
+        elementComponent.dragend.emit({
+          type: 'dragend',
+          el
         });
       }
+
+
+
     });
 
     this.drake.on('drop', (el: any, target: any, source: any) => {
@@ -225,4 +279,5 @@ export class DrakeStoreService {
       }
     });
   };
+
 }

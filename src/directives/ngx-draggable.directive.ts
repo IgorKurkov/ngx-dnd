@@ -47,6 +47,12 @@ export class DraggableDirective implements OnInit, OnDestroy {
   @Output()
   drag: EventEmitter<any> = new EventEmitter<any>();
 
+  @Output()
+  dragend: EventEmitter<any> = new EventEmitter<any>();
+
+  @Output()
+  dragging: EventEmitter<any> = new EventEmitter<any>();
+
   dragDelay: number = 200; // milliseconds
   draggable: boolean = false;
   touchTimeout: any;
