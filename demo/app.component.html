@@ -276,12 +276,13 @@
     <ngx-section class="shadow" sectionTitle="Nested Sortable - containers">
       <div fxLayout="row" fxLayoutWrap="nowrap" fxFill>
         <div fxFlex="50%">
-          <div class='wrapper'>
+          <div class='wrapper wrapper-test'>
             <ngx-dnd-container
               (drag)="log($event)"
               (dragging)="log($event)"
               (dragend)="log($event)"
-              [model]="nestedLists">
+              [model]="nestedLists"
+              scroll>
             </ngx-dnd-container>
 
             <!-- todo -->

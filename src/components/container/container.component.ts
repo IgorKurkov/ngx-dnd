@@ -48,6 +48,16 @@ export class ContainerComponent implements OnInit, AfterViewInit {
     this._dropZones = val;
   }
 
+  @Input()
+  get scroll() {
+    return this._scroll;
+  }
+  set scroll(val) {    
+    setTimeout(() => {
+      this._scroll = document.querySelectorAll(val || 'body')[0];
+    }, 0);
+  }
+
   // @Input() classes: any = {};
   // @Input() dragulaOptions: any;
 
@@ -83,10 +93,15 @@ export class ContainerComponent implements OnInit, AfterViewInit {
   @Output()
   cancel: EventEmitter<any> = new EventEmitter<any>();
 
-  _dropZones: string[];
-  _defaultZones: string[];
+  private _dropZones: string[];
+  private _defaultZones: string[];
+  private _scroll: any;
+  //default scroll start
+  private static readonly _SCROLL_START_TOP = 100;
+  private static readonly _SCROLL_START_BOTTOM = 100;
 
   ngOnInit() {
+    console.log(this.scroll);
     this._defaultZones = [this.dropZone];
   }
 
@@ -98,6 +113,25 @@ export class ContainerComponent implements OnInit, AfterViewInit {
     this.droppable.remove.subscribe(v => this.remove.emit(v));
     this.droppable.cancel.subscribe(v => this.cancel.emit(v));
     this.droppable.dragend.subscribe(v => this.dragend.emit(v));
-    this.droppable.dragging.subscribe(v => this.dragging.emit(v));
+    this.droppable.dragging.subscribe(v => {
+      this.dragging.emit(v);
+      if (v.mirror) {
+        this.scorllWhileDragging(v);
+      }
+    });
   }
+
+  private scorllWhileDragging(v) {
+
+    let viewportOffset = v.mirror.getBoundingClientRect();
+    let top = viewportOffset.top;
+
+    if (top < ContainerComponent._SCROLL_START_TOP && this.scroll) {
+      this.scroll.scrollTop -= 10 * (1 - Math.max(top / ContainerComponent._SCROLL_START_TOP, 0));
+    } else if (top > window.innerHeight - ContainerComponent._SCROLL_START_BOTTOM && this.scroll) {
+      this.scroll.scrollTop += 10 * Math.min((top - (window.innerHeight - ContainerComponent._SCROLL_START_BOTTOM)) / ContainerComponent._SCROLL_START_BOTTOM, 1);
+    }
+
+  }
+
 }
