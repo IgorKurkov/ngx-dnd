@@ -19,18 +19,17 @@ export class DrakeStoreService {
 
   private _animationFrame; 
   private _dragging;
-  private _lastKnownSource;
+  private _lastKnownSourceComponent;
 
   constructor(private zone: NgZone) {
     this.dragulaOptions = this.createDrakeOptions();
     this.drake = dragula([], this.dragulaOptions);
     this.registerEvents();
 
-    this._dragging = (container: any, emitParams: any) => {
+    this._dragging = (elementComponent: any, sourceComponent: any, emitParams: any) => {
       
       let mirror;
-      const elementComponent = container;
-
+      
       const animate = () => {
 
         if(!mirror) {
@@ -39,6 +38,7 @@ export class DrakeStoreService {
 
         emitParams.mirror = mirror;
         elementComponent.dragging.emit(emitParams);
+        sourceComponent.dragging.emit(emitParams);
 
         this._animationFrame = requestAnimationFrame(animate);
 
@@ -106,55 +106,45 @@ export class DrakeStoreService {
   registerEvents(): void {
     let dragElm: any;
     let draggedItem: any;
+    let lastKnownSourceComponent: any;
 
     this.drake.on('drag', (el: any, source: any) => {
-      draggedItem = undefined;
+
+      let sourceComponent;
+      let elementComponent;
+
       dragElm = el;
 
       if (!el || !source) {
         return;
       }
 
-      if (this.draggableMap.has(el)) {
-        const elementComponent = this.draggableMap.get(el);
-        draggedItem = elementComponent.model;
-
-        let emitParams = {
-          type: 'drag',
-          el,
-          source,
-          value: draggedItem
-        };
-
-        elementComponent.drag.emit(emitParams);
-        emitParams.type = 'dragging';
-        this.zone.runOutsideAngular(this._dragging(elementComponent, emitParams));
-      }
+      const emitParams = {
+        type: 'drag',
+        value: undefined,
+        el,
+        source
+      };
 
       if (this.droppableMap.has(source)) {
-        const sourceComponent = this.droppableMap.get(source);
+        sourceComponent = lastKnownSourceComponent = this.droppableMap.get(source);
         this.dragulaOptions.removeOnSpill = sourceComponent.removeOnSpill;
-
-        let emitParams = {
-          type: 'drag',
-          el,
-          source,
-          sourceComponent,
-          value: draggedItem
-        };
-
         sourceComponent.drag.emit(emitParams);
-        emitParams.type = 'dragging';
-        // this.zone.runOutsideAngular(this._dragging(sourceComponent, emitParams));
       }
 
+      if (this.draggableMap.has(el)) {
+        elementComponent = this.draggableMap.get(el);
+        emitParams.value = draggedItem = elementComponent.model;  
+        elementComponent.drag.emit(emitParams);
+      } 
+
+      emitParams.type = 'dragging';
+      this.zone.runOutsideAngular(this._dragging(elementComponent, sourceComponent, emitParams));
+    
     });
 
     this.drake.on('dragend', (el: any) => {
       window.cancelAnimationFrame(this._animationFrame);
-
-      draggedItem = undefined;
-      dragElm = el;
 
       if (this.draggableMap.has(el)) {
         const elementComponent = this.draggableMap.get(el);
@@ -164,7 +154,12 @@ export class DrakeStoreService {
         });
       }
 
-
+      if(lastKnownSourceComponent) {
+        lastKnownSourceComponent.dragend.emit({
+          type: 'dragned',
+          el
+        });
+      }
 
     });
 
@@ -174,7 +169,7 @@ export class DrakeStoreService {
         let dropElmModel = draggedItem;
 
         if (this.droppableMap.has(source)) {
-          const sourceComponent = this.droppableMap.get(source);
+          const sourceComponent = lastKnownSourceComponent = this.droppableMap.get(source);
 
           const sourceModel = sourceComponent.model;
           const targetModel = targetComponent.model;
@@ -217,7 +212,7 @@ export class DrakeStoreService {
 
     this.drake.on('remove', (el: any, container: any, source: any) => {
       if (this.droppableMap.has(source)) {
-        const sourceComponent = this.droppableMap.get(source);
+        const sourceComponent = lastKnownSourceComponent = this.droppableMap.get(source);
         const sourceModel = sourceComponent.model;
 
         const dragIndex = (draggedItem && sourceModel) ? sourceModel.indexOf(draggedItem) : -1;
@@ -242,7 +237,7 @@ export class DrakeStoreService {
 
     this.drake.on('cancel', (el: any, container: any, source: any) => {
       if (this.droppableMap.has(container)) {
-        const containerComponent = this.droppableMap.get(container);
+        const containerComponent = lastKnownSourceComponent = this.droppableMap.get(container);
         containerComponent.cancel.emit({
           type: 'cancel',
           el,
@@ -255,7 +250,7 @@ export class DrakeStoreService {
 
     this.drake.on('over', (el: any, container: any, source: any) => {
       if (this.droppableMap.has(container)) {
-        const containerComponent = this.droppableMap.get(container);
+        const containerComponent = lastKnownSourceComponent = this.droppableMap.get(container);
         containerComponent.over.emit({
           type: 'over',
           el,
@@ -268,7 +263,7 @@ export class DrakeStoreService {
 
     this.drake.on('out', (el: any, container: any, source: any) => {
       if (this.droppableMap.has(container)) {
-        const containerComponent = this.droppableMap.get(container);
+        const containerComponent = lastKnownSourceComponent = this.droppableMap.get(container);
         containerComponent.out.emit({
           type: 'out',
           el,
@@ -278,6 +273,7 @@ export class DrakeStoreService {
         });
       }
     });
-  };
+
+  }
 
 }
