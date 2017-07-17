@@ -47,7 +47,7 @@ export class DraggableDirective implements OnInit, OnDestroy {
   @Output()
   drag: EventEmitter<any> = new EventEmitter<any>();
 
-    @Output()
+  @Output()
   dragend: EventEmitter<any> = new EventEmitter<any>();
 
   @Output()

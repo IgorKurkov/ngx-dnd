@@ -278,6 +278,9 @@
         <div fxFlex="50%">
           <div class='wrapper'>
             <ngx-dnd-container
+              (drag)="log($event)"
+              (dragging)="log($event)"
+              (dragend)="log($event)"
               [model]="nestedLists">
             </ngx-dnd-container>
 
@@ -297,8 +300,8 @@
       </div>
     </ngx-section>
 
-    <ngx-section class="shadow" sectionTitle="Nested Sortable - recursive">
-      <div fxLayout="row" fxLayoutWrap="nowrap" fxFill>
+    <ngx-section class="shadow" sectionTitle="Nested Sortable - recursive - scrollable drag">
+      <div fxLayout="row" fxLayoutWrap="nowrap">
         <div fxFlex="50%">
           <div class='wrapper'>
 
@@ -306,7 +309,8 @@
               [model]="topics"
               [template]="itemInnerTemplate"
               dropZone="dropZone"
-              [removeOnSpill]="false">
+              [removeOnSpill]="false" 
+              scroll>
               <ng-template #itemInnerTemplate let-topic="model">
                 <ng-container *ngTemplateOutlet="itemNestableTemplate; context: { topic: topic }">
                 </ng-container>
@@ -323,7 +327,8 @@
                 [model]="topic.children"
                 [template]="itemInnerTemplate"
                 dropZone="dropZone"
-                [removeOnSpill]="false">
+                [removeOnSpill]="false"
+                scroll>
                 <ng-template #itemInnerTemplate let-topic="model">
                   <ng-container *ngTemplateOutlet="itemNestableTemplate; context: { topic: topic }">
                   </ng-container>
@@ -349,7 +354,7 @@
           </div>
         </div>
 
-        <div fxFlex="50%">
+        <div fxFlex>
           <h3>Model</h3>
           <code><pre>topics = {{topics | json}}</pre></code>
         </div>
