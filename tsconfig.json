@@ -20,7 +20,7 @@
     "suppressImplicitAnyIndexErrors": true,
     "outDir": "dist",
     "declarationDir": "release",
-    "lib": ["es7", "dom"]
+    "lib": ["es2015.promise", "es5", "scripthost", "dom"]
   },
   "files": [
     "src/declarations.d.ts",

@@ -33,6 +33,11 @@ function getNextId() {
   styleUrls: ['./container.component.scss'],
 })
 export class ContainerComponent implements OnInit, AfterViewInit {
+
+  // default scroll start
+  private static readonly _SCROLL_START_TOP = 100;
+  private static readonly _SCROLL_START_BOTTOM = 100;
+
   @Input() model: any;
   @Input() copy = false;
   @Input() removeOnSpill = false;
@@ -96,9 +101,6 @@ export class ContainerComponent implements OnInit, AfterViewInit {
   private _dropZones: string[];
   private _defaultZones: string[];
   private _scroll: any;
-  //default scroll start
-  private static readonly _SCROLL_START_TOP = 100;
-  private static readonly _SCROLL_START_BOTTOM = 100;
 
   ngOnInit() {
     console.log(this.scroll);
@@ -123,13 +125,17 @@ export class ContainerComponent implements OnInit, AfterViewInit {
 
   private scorllWhileDragging(v) {
 
-    let viewportOffset = v.mirror.getBoundingClientRect();
-    let top = viewportOffset.top;
+    const viewportOffset = v.mirror.getBoundingClientRect();
+    const top = viewportOffset.top;
 
     if (top < ContainerComponent._SCROLL_START_TOP && this.scroll) {
       this.scroll.scrollTop -= 10 * (1 - Math.max(top / ContainerComponent._SCROLL_START_TOP, 0));
     } else if (top > window.innerHeight - ContainerComponent._SCROLL_START_BOTTOM && this.scroll) {
-      this.scroll.scrollTop += 10 * Math.min((top - (window.innerHeight - ContainerComponent._SCROLL_START_BOTTOM)) / ContainerComponent._SCROLL_START_BOTTOM, 1);
+      this.scroll.scrollTop += 10 * Math.min(
+        (
+          top - window.innerHeight + ContainerComponent._SCROLL_START_BOTTOM
+        ) / ContainerComponent._SCROLL_START_BOTTOM, 1
+      );
     }
 
   }

@@ -1,11 +1,15 @@
 CHANGELOG
 =========
 
-## HEAD (Unreleased)
-* Support strings as droppableItemClass
-* Improved component reactivity
+## 2.1.4 (2017-07-18)
+_(none)_
 
 --------------------
+
+## 2.1.3 (2017-07-17)
+* Feature: dragging event
+* Feature: dragend event
+* Feature: sroll whild dragging
 
 ## 2.1.2 (2017-05-26)
 * bugfix: removed browser animation module from NgxDnDModule
