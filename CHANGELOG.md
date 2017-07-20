@@ -1,8 +1,8 @@
 CHANGELOG
 =========
 
-## 2.1.4 (2017-07-18)
-_(none)_
+## 2.1.41 (2017-07-18)
+* Removed ngDoCheck in draggable directive.
 
 --------------------
 

@@ -129,7 +129,4 @@ export class DraggableDirective implements OnInit, OnDestroy {
     }
   }
 
-  ngDoCheck() {
-    this.updateElements();
-  }
 }
