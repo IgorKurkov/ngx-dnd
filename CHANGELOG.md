@@ -1,10 +1,14 @@
 CHANGELOG
 =========
 
-## 2.1.41 (2017-07-18)
-* Removed ngDoCheck in draggable directive.
+## 2.1.42 (2017-09-12)
+* Removed console log in container component.
+* ngDoCheck limited.
 
 --------------------
+
+## 2.1.41 (2017-07-18)
+* Removed ngDoCheck in draggable directive.
 
 ## 2.1.3 (2017-07-17)
 * Feature: dragging event

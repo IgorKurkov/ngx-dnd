@@ -103,7 +103,6 @@ export class ContainerComponent implements OnInit, AfterViewInit {
   private _scroll: any;
 
   ngOnInit() {
-    console.log(this.scroll);
     this._defaultZones = [this.dropZone];
   }
 

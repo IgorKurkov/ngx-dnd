@@ -19,6 +19,9 @@ import { DrakeStoreService } from '../services/drake-store.service';
 @Directive({ selector: '[ngxDraggable]' })
 export class DraggableDirective implements OnInit, OnDestroy {
 
+  checked = 0;
+  checkLimit = 3;
+
   @Input() ngxDraggable: string[];
   @Input() model: any;
 
@@ -85,7 +88,7 @@ export class DraggableDirective implements OnInit, OnDestroy {
       this.draggable = true;
     }, this.dragDelay);
   }
-
+  
   @HostListener('touchend', ['$event'])
   onUp(e: Event) {
     clearTimeout(<number>this.touchTimeout);
@@ -127,6 +130,13 @@ export class DraggableDirective implements OnInit, OnDestroy {
       while((c = c.parentNode) && c !== p);  // tslint:disable-line
       return !!c;
     }
+  }
+
+  ngDoCheck() {
+    if (this.checked < this.checkLimit) {
+      this.updateElements();
+    } 
+    this.checked++;
   }
 
 }
