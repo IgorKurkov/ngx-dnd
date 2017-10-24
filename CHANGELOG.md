@@ -1,22 +1,33 @@
 CHANGELOG
 =========
 
-## 2.1.42 (2017-09-12)
-* Removed console log in container component.
-* ngDoCheck limited.
+## 3.0.0 (2017-08-15)
+* Merged with original swimlane library
+## HEAD (Unreleased)
+_(none)_
 
 --------------------
-
-## 2.1.41 (2017-07-18)
-* Removed ngDoCheck in draggable directive.
 
 ## 2.1.3 (2017-07-17)
 * Feature: dragging event
 * Feature: dragend event
 * Feature: sroll whild dragging
+_(none)_
+
+## 2.2.0 (2017-07-18)
+* Support strings as droppableItemClass
+* Improved component reactivity
+* Feature: add moves input to ngxDraggable and ContainerComponent
 
 ## 2.1.2 (2017-05-26)
 * bugfix: removed browser animation module from NgxDnDModule
+
+## 2.1.42 (2017-09-12)
+* Removed console log in container component.
+* ngDoCheck limited.
+
+## 2.1.41 (2017-07-18)
+* Removed ngDoCheck in draggable directive.
 
 ## 2.1.1 (2017-05-23)
 * Fix: emit drop event with copied item instead of source

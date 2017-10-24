@@ -28,9 +28,9 @@ function getNextId() {
  */
 @Component({
   selector: 'ngx-dnd-container',
-  templateUrl: 'container.component.html',
-  encapsulation: ViewEncapsulation.None,
+  templateUrl: './container.component.html',
   styleUrls: ['./container.component.scss'],
+  encapsulation: ViewEncapsulation.None
 })
 export class ContainerComponent implements OnInit, AfterViewInit {
 
@@ -57,21 +57,27 @@ export class ContainerComponent implements OnInit, AfterViewInit {
   get scroll() {
     return this._scroll;
   }
-  set scroll(val) {    
+  set scroll(val) {
     setTimeout(() => {
-      this._scroll = document.querySelectorAll(val || 'body')[0];
+      if (val) {
+        this._scroll = document.querySelectorAll(val)[0];
+      } else {
+        this._scroll = document.documentElement || document.body;
+      }
     }, 0);
   }
+
+  moves: (model: any, source: any, handle: any, sibling: any) => boolean;
 
   // @Input() classes: any = {};
   // @Input() dragulaOptions: any;
 
   @Input()
-  @ContentChild(TemplateRef) 
+  @ContentChild(TemplateRef)
   template: TemplateRef<any>;
 
   @Input()
-  @ViewChild(DroppableDirective) 
+  @ViewChild(DroppableDirective)
   droppable: any;
 
   @Output()
@@ -107,14 +113,14 @@ export class ContainerComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit() {
-    this.droppable.drag.subscribe(v => this.drag.emit(v));
-    this.droppable.drop.subscribe(v => this.drop.emit(v));
-    this.droppable.over.subscribe(v => this.over.emit(v));
-    this.droppable.out.subscribe(v => this.out.emit(v));
-    this.droppable.remove.subscribe(v => this.remove.emit(v));
-    this.droppable.cancel.subscribe(v => this.cancel.emit(v));
-    this.droppable.dragend.subscribe(v => this.dragend.emit(v));
-    this.droppable.dragging.subscribe(v => {
+    this.droppable.drag.subscribe((v: any) => this.drag.emit(v));
+    this.droppable.drop.subscribe((v: any) => this.drop.emit(v));
+    this.droppable.over.subscribe((v: any) => this.over.emit(v));
+    this.droppable.out.subscribe((v: any) => this.out.emit(v));
+    this.droppable.remove.subscribe((v: any) => this.remove.emit(v));
+    this.droppable.cancel.subscribe((v: any) => this.cancel.emit(v));
+    this.droppable.dragend.subscribe((v: any) => this.dragend.emit(v));
+    this.droppable.dragging.subscribe((v: any) => {
       this.dragging.emit(v);
       if (v.mirror) {
         this.scorllWhileDragging(v);
@@ -122,11 +128,10 @@ export class ContainerComponent implements OnInit, AfterViewInit {
     });
   }
 
-  private scorllWhileDragging(v) {
-
+  private scorllWhileDragging(v: any) {
     const viewportOffset = v.mirror.getBoundingClientRect();
     const top = viewportOffset.top;
-
+    
     if (top < ContainerComponent._SCROLL_START_TOP && this.scroll) {
       this.scroll.scrollTop -= 10 * (1 - Math.max(top / ContainerComponent._SCROLL_START_TOP, 0));
     } else if (top > window.innerHeight - ContainerComponent._SCROLL_START_BOTTOM && this.scroll) {

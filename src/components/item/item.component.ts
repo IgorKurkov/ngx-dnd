@@ -27,9 +27,9 @@ import { DraggableDirective } from '../../directives/';
  */
 @Component({
   selector: 'ngx-dnd-item',
-  templateUrl: 'item.component.html',
-  encapsulation: ViewEncapsulation.None,
+  templateUrl: './item.component.html',
   styleUrls: ['./item.component.scss'],
+  encapsulation: ViewEncapsulation.None
 })
 export class ItemComponent implements OnInit {
   @Input() model: any;
@@ -81,9 +81,12 @@ export class ItemComponent implements OnInit {
   _removeOnSpill = false;
   data: any;
 
-  @HostBinding('class.has-handle')
-  get hasHandle() {
+  get hasHandle(): boolean {
     return this.draggableDirective.hasHandle;
+  }
+
+  get moveDisabled(): boolean {
+    return !this.draggableDirective.canMove();
   }
 
   @HostBinding('class')
@@ -91,7 +94,15 @@ export class ItemComponent implements OnInit {
     const itemClass = (typeof this.droppableItemClass === 'function') ?
       this.droppableItemClass(this.model) :
       this.droppableItemClass;
-    return  `ngx-dnd-item ${itemClass || ''}`;
+
+    const classes = ['ngx-dnd-item', itemClass || ''];
+    if (this.moveDisabled) {
+      classes.push('move-disabled');
+    }
+    if (this.hasHandle) {
+      classes.push('has-handle');
+    }
+    return  classes.join(' ');
   }
 
   get type() {

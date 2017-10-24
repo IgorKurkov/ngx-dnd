@@ -11,8 +11,8 @@
     "pretty": true,
     "allowUnreachableCode": true,
     "allowUnusedLabels": true,
-    "noImplicitAny": false,
-    "noImplicitReturns": false,
+    "noImplicitAny": true,
+    "noImplicitReturns": true,
     "noImplicitUseStrict": false,
     "noFallthroughCasesInSwitch": false,
     "allowSyntheticDefaultImports": true,
@@ -20,7 +20,7 @@
     "suppressImplicitAnyIndexErrors": true,
     "outDir": "dist",
     "declarationDir": "release",
-    "lib": ["es2015.promise", "es5", "scripthost", "dom"]
+    "lib": ["es2015.promise", "es2017", "scripthost", "dom"]
   },
   "files": [
     "src/declarations.d.ts",
@@ -28,6 +28,10 @@
   ],
   "exclude": [
     "node_modules"
+  ],
+  "include": [
+    "src/**/**.ts",
+    "demo/**/**.ts"
   ],
   "compileOnSave": false,
   "buildOnSave": false,

@@ -17,9 +17,9 @@ export class DrakeStoreService {
   private dragulaOptions: any = {};
   private drake: any;
 
-  private _animationFrame; 
-  private _dragging;
-  private _lastKnownSourceComponent;
+  private _animationFrame: any;
+  private _dragging: any;
+  private _lastKnownSourceComponent: any;
 
   constructor(private zone: NgZone) {
     this.dragulaOptions = this.createDrakeOptions();
@@ -28,7 +28,7 @@ export class DrakeStoreService {
 
     this._dragging = (elementComponent: any, sourceComponent: any, emitParams: any) => {
       
-      let mirror;
+      let mirror: any;
       
       const animate = () => {
 
@@ -72,7 +72,7 @@ export class DrakeStoreService {
   }
 
   createDrakeOptions() {
-    const accepts = (el, target, source, sibling) => {
+    const accepts = (el: any, target: any, source: any, sibling: any) => {
       if (el.contains(target)) {
         return false;
       }
@@ -84,7 +84,7 @@ export class DrakeStoreService {
       return true;
     };
 
-    const copy = (el, source) => {
+    const copy = (el: any, source: any) => {
       const sourceComponent = this.droppableMap.get(source);
       if (sourceComponent) {
         return sourceComponent.copy;
@@ -92,7 +92,7 @@ export class DrakeStoreService {
       return false;
     };
 
-    const moves = (el, source, handle, sibling) => {
+    const moves = (el: any, source: any, handle: any, sibling: any) => {
       const elementComponent = this.draggableMap.get(el);
       if (elementComponent) {
         return elementComponent.moves(source, handle, sibling);
@@ -121,7 +121,7 @@ export class DrakeStoreService {
 
       const emitParams = {
         type: 'drag',
-        value: undefined,
+        value: undefined as any,
         el,
         source
       };
@@ -289,7 +289,5 @@ export class DrakeStoreService {
         });
       }
     });
-
   }
-
 }
