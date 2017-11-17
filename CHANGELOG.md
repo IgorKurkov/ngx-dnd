@@ -5,13 +5,13 @@ CHANGELOG
 * Merged with original swimlane library
 ## HEAD (Unreleased)
 _(none)_
-
 --------------------
 
-## 2.1.3 (2017-07-17)
-* Feature: dragging event
-* Feature: dragend event
-* Feature: sroll whild dragging
+## 3.1.0 (2017-11-2)
+
+* Support for Angular 5
+
+## 3.0.0 (2017-08-15)
 _(none)_
 
 ## 2.2.0 (2017-07-18)
