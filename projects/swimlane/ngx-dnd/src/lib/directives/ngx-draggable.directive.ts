@@ -10,13 +10,10 @@ import { DrakeStoreService } from '../services/drake-store.service';
  */
 @Directive({ selector: '[ngxDraggable]' })
 export class DraggableDirective implements OnInit, OnDestroy {
-<<<<<<< HEAD:src/directives/ngx-draggable.directive.ts
 
   checked = 0;
   checkLimit = 3;
 
-=======
->>>>>>> 117089817ba805aea804e98a279ba3e93114073d:projects/swimlane/ngx-dnd/src/lib/directives/ngx-draggable.directive.ts
   @Input() ngxDraggable: string[];
   @Input() model: any;
 
@@ -87,15 +84,9 @@ export class DraggableDirective implements OnInit, OnDestroy {
       }, this.dragDelay);
     }
   }
-<<<<<<< HEAD:src/directives/ngx-draggable.directive.ts
   
   @HostListener('touchend', ['$event'])
   onUp(e: Event) {
-=======
-
-  @HostListener('touchend')
-  onUp() {
->>>>>>> 117089817ba805aea804e98a279ba3e93114073d:projects/swimlane/ngx-dnd/src/lib/directives/ngx-draggable.directive.ts
     if (this._moves) {
       clearTimeout(<number>this.touchTimeout);
       this.dragDelayed = true;

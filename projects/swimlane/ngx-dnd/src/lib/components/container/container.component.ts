@@ -11,11 +11,7 @@ import {
   EventEmitter
 } from '@angular/core';
 
-<<<<<<< HEAD:src/components/container/container.component.ts
-import { DroppableDirective, DraggableDirective } from '../../directives';
-=======
 import { DroppableDirective } from '../../directives/ngx-droppable.directive';
->>>>>>> 117089817ba805aea804e98a279ba3e93114073d:projects/swimlane/ngx-dnd/src/lib/components/container/container.component.ts
 
 let i = 0;
 function getNextId() {
@@ -54,7 +50,6 @@ export class ContainerComponent implements OnInit, AfterViewInit {
     this._dropZones = val;
   }
 
-<<<<<<< HEAD:src/components/container/container.component.ts
   @Input()
   get scroll() {
     return this._scroll;
@@ -69,10 +64,7 @@ export class ContainerComponent implements OnInit, AfterViewInit {
     }, 0);
   }
 
-  moves: (model: any, source: any, handle: any, sibling: any) => boolean;
-=======
   @Input() moves: (model: any, source: any, handle: any, sibling: any) => boolean;
->>>>>>> 117089817ba805aea804e98a279ba3e93114073d:projects/swimlane/ngx-dnd/src/lib/components/container/container.component.ts
 
   // @Input() classes: any = {};
   // @Input() dragulaOptions: any;
@@ -89,7 +81,6 @@ export class ContainerComponent implements OnInit, AfterViewInit {
 
   @Output() drag: EventEmitter<any> = new EventEmitter<any>();
 
-<<<<<<< HEAD:src/components/container/container.component.ts
   @Output()
   dragend: EventEmitter<any> = new EventEmitter<any>();
 
@@ -98,9 +89,6 @@ export class ContainerComponent implements OnInit, AfterViewInit {
 
   @Output()
   over: EventEmitter<any> = new EventEmitter<any>();
-=======
-  @Output() over: EventEmitter<any> = new EventEmitter<any>();
->>>>>>> 117089817ba805aea804e98a279ba3e93114073d:projects/swimlane/ngx-dnd/src/lib/components/container/container.component.ts
 
   @Output() out: EventEmitter<any> = new EventEmitter<any>();
 

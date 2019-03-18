@@ -33,7 +33,6 @@ export class DroppableDirective implements OnInit, OnDestroy, AfterViewInit {
 
   @Output() drag: EventEmitter<any> = new EventEmitter<any>();
 
-<<<<<<< HEAD:src/directives/ngx-droppable.directive.ts
   @Output()
   dragend: EventEmitter<any> = new EventEmitter<any>();
 
@@ -42,9 +41,6 @@ export class DroppableDirective implements OnInit, OnDestroy, AfterViewInit {
 
   @Output()
   over: EventEmitter<any> = new EventEmitter<any>();
-=======
-  @Output() over: EventEmitter<any> = new EventEmitter<any>();
->>>>>>> 117089817ba805aea804e98a279ba3e93114073d:projects/swimlane/ngx-dnd/src/lib/directives/ngx-droppable.directive.ts
 
   @Output() out: EventEmitter<any> = new EventEmitter<any>();
 
