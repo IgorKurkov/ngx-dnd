@@ -1,5 +1,4 @@
-# ngx-dnd [![Codacy Badge](https://api.codacy.com/project/badge/Grade/06120385a7c84f18801b7b7c36e9fc82)](https://www.codacy.com/app/hypercubed/ngx-dnd?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=swimlane/ngx-dnd&amp;utm_campaign=Badge_Grade)
-
+# ngx-dnd
 
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/06120385a7c84f18801b7b7c36e9fc82)](https://www.codacy.com/app/hypercubed/ngx-dnd?utm_source=github.com&utm_medium=referral&utm_content=swimlane/ngx-dnd&utm_campaign=Badge_Grade) [![npm downloads](https://img.shields.io/npm/dm/@swimlane/ngx-dnd.svg)](https://npmjs.org/@swimlane/ngx-dnd)
 
@@ -9,20 +8,19 @@ _Note: The drag-and-drop directives in [angular/cdk](https://material.angular.io
 
 ## Features
 
-- Drag and Drop
-- Sorting
-- Events (drag, dragend, draggig drop, over, out)
-- Nesting
-- Nesting
-- Touch support
-- Templating
+* Drag and Drop
+* Sorting
+* Events (drag, drop, over, out)
+* Nesting
+* Touch support
+* Templating
 
 ## Install
 
 To use ngx-dnd in your project install it via [npm](https://www.npmjs.com/package/@swimlane/ngx-dnd):
 
 * `npm i @swimlane/ngx-dnd @swimlane/dragula @types/dragula --save`
-* Add `NgxDnDModule.forRoot()` to your application module.
+* Add `NgxDnDModule` to your application module
 * If using directives you will need to BYO styles or include `@swimlane/ngx-dnd/release/index.css`.
 * You may need to add the following to your `polyfills.ts` file:
 
@@ -183,11 +181,15 @@ Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protrac
 
 To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
 
-## [CHANGELOG](https://github.com/swimlane/ngx-dnd/blob/master/CHANGELOG.md)
+## Changelog
+
+[Changelog](https://github.com/swimlane/ngx-dnd/blob/master/CHANGELOG.md)
 
 This project uses [heff/chg](https://github.com/heff/chg), a simple changelog/release history manager. When contributing to this project please add change notes (manually or using the [heff/chg](https://github.com/heff/chg) cli) to the `## HEAD (Unreleased)` section.
 
 ## Release
+
+This project uses [sindresorhus/np](https://github.com/sindresorhus/np), a better `npm publish`. To publish a new version to npm, first ensure all entries in the `## HEAD (Unreleased)` section of the changelog are appropriate, commit changes, and push changes to github (if not already done). Then use `npm run np` to launch an interactive UI that will guide you through publishing a new version. `sindresorhus/np` and `heff/chg` will perform various pre-publish checks, run tests, bump the version number, update the changelog, then publish to npm and push to github.
 
 <details>
   <summary>Manual process</summary>
